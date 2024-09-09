@@ -1,25 +1,30 @@
-import {MongoClient} from 'mongodb';
+// lib/mongodb.ts
+import mongoose from 'mongoose'
 
-// 환경 변수에서 MongoDB URI 가져오기
-const uri: string = process.env.MONGODB_URI || '';
-const options: any = {useNewUrlParser: true, useUnifiedTopology: true};
+const MONGODB_URI = process.env.MONGODB_URI || ''
 
-// MongoClient 인스턴스 생성
-const client: MongoClient = new MongoClient(uri, options);
-
-// 클라이언트의 Promise를 저장할 변수
-let clientPromise: Promise<MongoClient>;
-
-// 개발 환경에서는 클라이언트를 전역 변수에 저장하여 재사용
-if (process.env.NODE_ENV === 'development') {
-    let cachedClientPromise: Promise<MongoClient> = (global as any)._mongoClientPromise;
-    if (!cachedClientPromise) {
-        (global as any)._mongoClientPromise = client.connect();
-    }
-    clientPromise = (global as any)._mongoClientPromise;
-} else {
-    // 프로덕션 환경에서는 클라이언트를 직접 연결
-    clientPromise = client.connect();
+if (!MONGODB_URI) {
+  throw new Error('Please define the MONGODB_URI environment variable')
 }
 
-export default clientPromise;
+let cached = (global as any).mongoose
+
+if (!cached) {
+  cached = (global as any).mongoose = { conn: null, promise: null }
+}
+
+async function dbConnect() {
+  if (cached.conn) {
+    return cached.conn
+  }
+
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(MONGODB_URI).then((mongoose) => {
+      return mongoose
+    })
+  }
+  cached.conn = await cached.promise
+  return cached.conn
+}
+
+export default dbConnect
