@@ -2,7 +2,7 @@
 import React, { useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import FormInput from '@/app/_components/FormInput'
+import FormInput from '@/components/FormInput'
 import axios from 'axios'
 
 interface SignUpFormData {
@@ -15,7 +15,6 @@ interface SignUpFormData {
 export default function Page() {
   const { register, handleSubmit, formState: { errors } } = useForm<SignUpFormData>()
   const router = useRouter()
-
   const onSubmit = useCallback(async (data: SignUpFormData) => {
     try {
       await axios.post('/api/users', data)

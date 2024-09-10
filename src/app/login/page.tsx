@@ -1,24 +1,27 @@
 'use client'
 import React, { useCallback } from 'react'
-import FormInput from '@/app/_components/FormInput'
+import FormInput from '@/components/FormInput'
 import { useForm } from 'react-hook-form'
-import axios from 'axios'
+import { signIn, useSession } from 'next-auth/react'
 
 interface LoginFormData {
   email: string;
   password: string;
 }
+
 export default function Page() {
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>()
 
   const onSubmit = useCallback(async (data: LoginFormData) => {
-    let response;
-    try {
-      response = await axios.post('/api/login', data)
-    } catch (e) {
-
-    } finally {
-      console.log(response!.status)
+    const response = await signIn('credentials', {
+      email: data.email,
+      password: data.password,
+      redirect: false
+    })
+    if(response?.error){
+      alert('로그인 실패')
+    } else {
+      alert('로그인 성공')
     }
   }, [])
   return (
