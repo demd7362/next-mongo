@@ -3,18 +3,17 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
-const notAllowed = new Set([''])
+const notAllowed = new Set(['/posts/write'])
 
-export async function middleware(request: NextRequest) {
-  const path = new URL(request.url).pathname
-  if(!notAllowed.has(path)){
-    return NextResponse.next();
+export async function middleware(req: NextRequest) {
+  const path = new URL(req.url).pathname
+  if(notAllowed.has(path)){
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+    if (!token) {
+      return NextResponse.redirect(new URL('/login', req.url));
+    }
   }
-  // 인증 토큰 가져오기
-  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
-  if (!token) {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
+
   // 인증된 경우 요청 진행
   return NextResponse.next();
 }

@@ -1,11 +1,11 @@
-import NextAuth from 'next-auth'
+import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import User from '@/app/_db/models/User'
 import bcrypt from 'bcrypt'
 import dbConnect from '@/app/_db/mongo'
-import KakaoProvider from "next-auth/providers/kakao";
+import KakaoProvider from 'next-auth/providers/kakao'
 
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       credentials: {
@@ -40,29 +40,31 @@ const handler = NextAuth({
 
         return {
           email: user.get('email'),
-          nickname: user.get('nickname')
+          nickname: user.get('nickname'),
+          objectId: user.get('_id')
         }
       }
     }),
     KakaoProvider({
       clientId: process.env.KAKAO_CLIENT_ID!,
-      clientSecret: process.env.KAKAO_CLIENT_SECRET!,
+      clientSecret: process.env.KAKAO_CLIENT_SECRET!
     })
   ],
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: '/login',
+    signIn: '/login'
   },
   callbacks: {
     // account.provider 로 provider 조회 가능
-    async jwt({ token, user, account }) {
-       return { ...token, ...user }
+    async jwt({ token, user, account, profile }) {
+      return { ...token, ...user }
     },
 
-    async session({ session, token }) {
-      session.user.accessToken = token as any
+    async session({ session, token, user }) {
+      session.user.token = token as any
       return session
     }
   }
-})
+}
+const handler = NextAuth(authOptions)
 export { handler as GET, handler as POST }

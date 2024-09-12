@@ -9,7 +9,6 @@ const DEFAULT_SIGN_OPTION: SignOption = {
 };
 const SECRET_KEY = process.env.NEXTAUTH_SECRET;
 export function sign(payload: JwtPayload, options: SignOption = DEFAULT_SIGN_OPTION) {
-
   const token = jwt.sign(payload, SECRET_KEY!, options);
   return token;
 }

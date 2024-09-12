@@ -16,13 +16,8 @@ export default function Page() {
   const { register, handleSubmit, formState: { errors } } = useForm<SignUpFormData>()
   const router = useRouter()
   const onSubmit = useCallback(async (data: SignUpFormData) => {
-    try {
-      const response = await $axios.post('/api/users', data)
-      console.log('회원가입', response)
-      router.push('/login')
-    } catch (e) {
-      throw e
-    }
+    await $axios.post('/api/users', data)
+    router.push('/login')
   }, [router])
 
   return (

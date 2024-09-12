@@ -21,18 +21,16 @@ const postSchema: Schema = new Schema({
     required: true
   },
   author: { // 작성자 정보 (사용자 ID)
-    type: Schema.Types.ObjectId,
-    ref: 'user',
+    type: String,
     required: true
   },
-  tags: [String], // 게시물 태그 배열
   likes: { // 좋아요 수
     type: Number,
     default: 0
   },
   comments: [{ // 댓글 목록
     type: Schema.Types.ObjectId,
-    ref: 'Comment'
+    ref: 'comment'
   }]
 }, {
   timestamps: true, // createdAt, updatedAt 필드 추가
