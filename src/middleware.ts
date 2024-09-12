@@ -3,11 +3,11 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
-const allowed = new Set(['/login','/join','/'])
+const notAllowed = new Set([''])
 
 export async function middleware(request: NextRequest) {
   const path = new URL(request.url).pathname
-  if(allowed.has(path)){
+  if(!notAllowed.has(path)){
     return NextResponse.next();
   }
   // 인증 토큰 가져오기

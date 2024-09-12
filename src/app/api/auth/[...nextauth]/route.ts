@@ -3,13 +3,11 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import User from '@/app/_db/models/User'
 import bcrypt from 'bcrypt'
 import dbConnect from '@/app/_db/mongo'
-import { sign } from '@/utils/jwt'
-
+import KakaoProvider from "next-auth/providers/kakao";
 
 const handler = NextAuth({
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
       credentials: {
         email: { label: 'Email', type: 'text' },
         password: { label: 'Password', type: 'password' }
@@ -45,13 +43,20 @@ const handler = NextAuth({
           nickname: user.get('nickname')
         }
       }
+    }),
+    KakaoProvider({
+      clientId: process.env.KAKAO_CLIENT_ID!,
+      clientSecret: process.env.KAKAO_CLIENT_SECRET!,
     })
   ],
-  // @ts-ignore
-  pages: '/login',
+  secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    signIn: '/login',
+  },
   callbacks: {
-    async jwt({ token, user }) {
-      return { ...token, ...user }
+    // account.provider 로 provider 조회 가능
+    async jwt({ token, user, account }) {
+       return { ...token, ...user }
     },
 
     async session({ session, token }) {

@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import FormInput from '@/components/FormInput'
-import axios from 'axios'
+import $axios from '@/utils/axios'
 
 interface SignUpFormData {
   username: string;
@@ -17,7 +17,8 @@ export default function Page() {
   const router = useRouter()
   const onSubmit = useCallback(async (data: SignUpFormData) => {
     try {
-      await axios.post('/api/users', data)
+      const response = await $axios.post('/api/users', data)
+      console.log('회원가입', response)
       router.push('/login')
     } catch (e) {
       throw e

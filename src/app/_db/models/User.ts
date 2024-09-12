@@ -6,7 +6,7 @@ export interface IUser extends Document {
   password: string;
 }
 
-const UserSchema: Schema = new Schema({
+const userSchema: Schema = new Schema({
   nickname: { type: String, required: true, unique: true, trim: true },
   email: { type: String, required: true, unique: true, trim: true },
   password: { type: String, required: true }
@@ -16,6 +16,6 @@ const UserSchema: Schema = new Schema({
 })
 
 // 최초 실행 시에만 생성, 그렇지 않다면 메모리에 올라가있는 model 값 사용
-const User = mongoose.models.User || mongoose.model<IUser>('User', UserSchema, 'user')
+const User = mongoose.models.User || mongoose.model<IUser>('User', userSchema, 'user')
 
 export default User

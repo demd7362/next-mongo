@@ -3,6 +3,7 @@ import React, { useCallback } from 'react'
 import FormInput from '@/components/FormInput'
 import { useForm } from 'react-hook-form'
 import { signIn, useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 interface LoginFormData {
   email: string;
@@ -11,6 +12,7 @@ interface LoginFormData {
 
 export default function Page() {
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>()
+  const router = useRouter()
 
   const onSubmit = useCallback(async (data: LoginFormData) => {
     const response = await signIn('credentials', {
@@ -21,9 +23,9 @@ export default function Page() {
     if(response?.error){
       alert('로그인 실패')
     } else {
-      alert('로그인 성공')
+      router.push('/')
     }
-  }, [])
+  }, [router])
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6 text-center">로그인</h2>
