@@ -12,5 +12,5 @@ export async function POST(req: NextRequest) {
   body.password = hashedPassword
   const user = await User.create(body)
   console.log(user)
-  return NextResponse.json({ status: 201 })
+  return NextResponse.json({},{ status: 201 })
 }

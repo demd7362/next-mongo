@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@toast-ui/react-editor": "^3.2.3",
     "@types/jsonwebtoken": "^9.0.6",
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",

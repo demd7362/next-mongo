@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { formatDate } from '@/utils/date'
 
-interface Post {
+export interface Post {
   _id: number;
   title: string;
   content: string;
@@ -26,13 +26,13 @@ interface Pagination {
 }
 
 interface PostListProps {
-  data: Pagination
+  pagination: Pagination
 }
 
-export default function PostList({ data }: PostListProps) {
+export default function PostList({ pagination }: PostListProps) {
   return (
     <div className="container mx-auto px-4">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center my-6">
         <h1 className="text-3xl font-bold">게시글 목록</h1>
         <Link href="/posts/write" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"> 글쓰기 </Link>
       </div>
@@ -46,7 +46,7 @@ export default function PostList({ data }: PostListProps) {
           </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-          {data.docs.reverse().map((post, i) => (
+          {pagination.docs.reverse().map((post, i) => (
             <tr key={post._id}>
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600 hover:text-blue-800">
                 <Link href={`/posts/${post._id}`}>
@@ -62,9 +62,9 @@ export default function PostList({ data }: PostListProps) {
       </div>
       <div className="mt-6 flex justify-center">
         <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-          {Array.from({ length: data.totalPages }, (_, i) => i + 1).map((page) => (
+          {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((page) => (
             <Link key={page} href={`/posts?page=${page}`} className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium
-                ${page === data.page
+                ${page === pagination.page
               ? 'z-10 bg-blue-50 border-blue-500 text-blue-600'
               : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
             }`}>

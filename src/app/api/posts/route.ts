@@ -13,7 +13,7 @@ export async function GET(req: NextRequest){
   const options = {page ,limit}
   // @ts-ignore overwrite 되지않게 메모리에 올라가있는거 쓰면 ts 에러나서 ignore 처리
   const result = await Post.paginate({}, options)
-  return NextResponse.json({status: 200, data: result})
+  return NextResponse.json({ data: result})
 }
 
 export async function POST(req: NextRequest){
@@ -28,6 +28,6 @@ export async function POST(req: NextRequest){
     ...body,
     author
   })
-  return NextResponse.json({status: 200})
+  return NextResponse.json({},{status: 200})
 
 }
