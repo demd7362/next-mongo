@@ -29,8 +29,8 @@ const postSchema: Schema = new Schema({
     default: 0
   },
   comments: [{ // 댓글 목록
-    type: Schema.Types.ObjectId,
-    ref: 'comment'
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comment' // 몽구스에 등록된 모델명 입력해야함. Collection명이 아님
   }]
 }, {
   timestamps: true, // createdAt, updatedAt 필드 추가

@@ -7,7 +7,7 @@ import { Editor } from '@toast-ui/react-editor'
 
 export default function Page() {
   const searchParams = useSearchParams()
-  const objectId = searchParams.get('id')
+  const postId = searchParams.get('id')
 
   const [title, setTitle] = useState('')
   const router = useRouter()
@@ -17,8 +17,8 @@ export default function Page() {
     // const markdownContent = editorRef.current?.getInstance().getMarkdown();
     const content = editorRef.current?.getInstance().getHTML()
     const body = { title, content }
-    if (objectId) {
-      await $axios.patch(`/api/posts/${objectId}`, {...body, id: objectId})
+    if (postId) {
+      await $axios.patch(`/api/posts/${postId}`, {...body, id: postId})
       alert('수정 완료')
     } else {
       await $axios.post('/api/posts', body)
@@ -32,16 +32,16 @@ export default function Page() {
 
   }
   const getPostData = async () => {
-    const response = await $axios.get(`/api/posts/${objectId}`)
+    const response = await $axios.get(`/api/posts/${postId}`)
     const postData = response.data.data
     setTitle(postData.title)
     editorRef.current?.getInstance().setHTML(postData.content)
   }
   useEffect(() => {
-    if(objectId && !title){
+    if(postId && !title){
       getPostData()
     }
-  },[objectId])
+  },[postId])
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -50,7 +50,7 @@ export default function Page() {
         <ToastUiEditor editorRef={editorRef} imageHandler={handleImage} />
         <div className="flex justify-end">
           <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-            {objectId ? '수정' : '작성'}
+            {postId ? '수정' : '작성'}
           </button>
         </div>
       </form>

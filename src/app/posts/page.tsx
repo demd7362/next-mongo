@@ -1,6 +1,5 @@
 import PostList from '@/app/posts/_components/PostList'
 import $axios from '@/utils/axios'
-import { GetStaticProps } from 'next'
 
 interface Props {
   searchParams: { [key: string]: string | undefined };

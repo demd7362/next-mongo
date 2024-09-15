@@ -4,19 +4,18 @@ import { formatDate } from '@/utils/date'
 import ToastUiViewer from '@/components/ToastUiViewer'
 import PostButtonWrapper from '@/components/PostButtonWrapper'
 import { notFound } from 'next/navigation'
-
-interface Props {
-  params: { [key: string]: string | undefined }
-}
+import CommentSection from '@/app/posts/_components/CommentSection'
 
 
 
-export default async function Page({ params }: Props) {
-  const { objectId } = params
+
+export default async function Page({ params }: PathVariableProps) {
+  const { postId } = params
   let post;
   try {
-    const response = await $axios.get(`/api/posts/${objectId}`)
+    const response = await $axios.get(`/api/posts/${postId}`)
     post = response.data.data
+    console.log('댓글도 여기들어있나',post)
   } catch (e){
     notFound()
   }
@@ -30,6 +29,7 @@ export default async function Page({ params }: Props) {
       </div>
       <ToastUiViewer content={post.content}/>
       <PostButtonWrapper />
+      <CommentSection postId={postId!}/>
     </div>
   )
 }

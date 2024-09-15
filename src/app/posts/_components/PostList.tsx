@@ -46,7 +46,7 @@ export default function PostList({ pagination }: PostListProps) {
           </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-          {pagination.docs.reverse().map((post, i) => (
+          {pagination.docs.reverse().map((post) => (
             <tr key={post._id}>
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600 hover:text-blue-800">
                 <Link href={`/posts/${post._id}`}>
