@@ -12,6 +12,7 @@ export interface Post {
   updatedAt: string;
   comments: any[];
 }
+
 interface Pagination {
   docs: Post[];
   totalDocs: number;

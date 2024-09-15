@@ -1,3 +1,3 @@
-interface PathVariableProps {
-  params: { [key: string]: string | undefined }
+interface SearchParams {
+  searchParams: { [key: string]: string | undefined };
 }
