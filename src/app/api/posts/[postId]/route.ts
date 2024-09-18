@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import dbConnect from '@/app/_db/mongo'
 import Post from '@/app/_db/models/Post'
-import { getUsername } from '@/utils/auth'
+import { getUsernameByToken } from '@/utils/auth'
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher'
 
 
@@ -21,7 +21,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   const { postId } = params
   const body = await req.json()
   const { title, content } = body
-  const author = await getUsername(req)
+  const author = await getUsernameByToken(req)
   if (!author) {
     return NextResponse.json({}, { status: 401 })
   }
@@ -35,7 +35,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 export async function DELETE(req: NextRequest, { params }: Params) {
   await dbConnect()
   const { postId } = params
-  const author = await getUsername(req)
+  const author = await getUsernameByToken(req)
   if (!author) {
     return NextResponse.json({}, { status: 401 })
   }

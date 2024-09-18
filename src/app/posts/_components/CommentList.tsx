@@ -34,7 +34,7 @@ export default async function CommentList({ postId, searchParams }: CommentListP
               <p>{comment.content}</p>
               <p className="text-sm text-gray-500">{formatDateTime(comment.createdAt)}</p>
             </div>
-            <CommentButtonWrapper commentId={JSON.stringify(comment._id)} />
+            <CommentButtonWrapper commentId={JSON.parse(JSON.stringify(comment._id))} />
           </div>
         ))}
       </div>

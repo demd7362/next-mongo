@@ -1,6 +1,6 @@
 'use client'
 import { Pencil, Trash2 } from 'lucide-react'
-import $axios, { catcher } from '@/utils/axios'
+import $axios, { handleError } from '@/utils/axios'
 import { useRouter } from 'next/navigation'
 
 interface CommentButtonProps {
@@ -11,10 +11,11 @@ export default function CommentButtonWrapper({ commentId }: CommentButtonProps) 
   const router = useRouter()
   const handleEdit = async (commentId: string) => {
     try {
+      
       await $axios.patch(`/api/comments/${commentId}`)
       router.refresh()
     } catch (e: any) {
-      catcher(e)
+      handleError(e)
     }
   }
   const handleDelete = async (commentId: string) => {
@@ -22,7 +23,7 @@ export default function CommentButtonWrapper({ commentId }: CommentButtonProps) 
       await $axios.delete(`/api/comments/${commentId}`)
       router.refresh()
     } catch (e: any) {
-      catcher(e)
+      handleError(e)
     }
   }
   return (

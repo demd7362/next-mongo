@@ -1,16 +1,23 @@
 'use client'
-import { FormEvent, useState, useTransition } from 'react'
-import $axios from '@/utils/axios'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { createComment } from '@/app/actions'
 
+interface CommentInputProps {
+  postId: string
+}
 
-export default function CommentInput({ postId }: { postId: string }) {
+export default function CommentInput({ postId }: CommentInputProps) {
   const [newComment, setNewComment] = useState('')
   const router = useRouter()
   const handleSubmit = async () => {
-    await $axios.post(`/api/posts/${postId}/comments`, { content: newComment })
-    setNewComment('')
-    router.refresh()
+    const isCreated = await createComment(postId, newComment)
+    if(isCreated) {
+      setNewComment('')
+      router.refresh()
+    } else {
+      router.push('/login')
+    }
   }
 
 

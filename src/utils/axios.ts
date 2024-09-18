@@ -6,7 +6,7 @@ const $axios = axios.create({
 export default $axios
 
 
-export const catcher = (e: any) => {
+export const handleError = (e: any) => {
   switch (e.status) {
     case 400:
       alert('잘못된 요청입니다.')
