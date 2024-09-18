@@ -1,6 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
 import { formatDate } from '@/utils/date'
+import { getPostsByPagination } from '@/app/actions'
+import { Pagination, SearchParams } from '@/types/global'
 
 export interface Post {
   _id: number;
@@ -13,24 +15,12 @@ export interface Post {
   comments: any[];
 }
 
-interface Pagination {
-  docs: Post[];
-  totalDocs: number;
-  limit: number;
-  totalPages: number;
-  page: number;
-  pagingCounter: number;
-  hasPrevPage: boolean;
-  hasNextPage: boolean;
-  prevPage: number;
-  nextPage: number;
-}
 
-interface PostListProps {
-  pagination: Pagination
-}
 
-export default function PostList({ pagination }: PostListProps) {
+
+export default async function PostList({ searchParams }: SearchParams) {
+  const page = Number(searchParams['page'] || '1')
+  const pagination: Pagination = await getPostsByPagination(page)
   return (
     <div className="container mx-auto px-4">
       <div className="flex justify-between items-center my-6">

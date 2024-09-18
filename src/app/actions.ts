@@ -1,12 +1,32 @@
-'use server'
+import dbConnect from '@/app/_db/mongo'
+import Comment from '@/app/_db/models/Comment'
+import { NextResponse } from 'next/server'
+import Post from '@/app/_db/models/Post'
+import { notFound } from 'next/navigation'
 
-import { revalidatePath } from 'next/cache'
-import $axios from '@/utils/axios'
+const PER_PAGE = 10
 
-export async function getComments(postId: string){
-  const response = await $axios.get(`/api/posts/${postId}/comments`)
-  return response.data.data
+export const getCommentsByPagination = async (postId: string, page: number) => {
+  await dbConnect()
+  const options = { page, limit: PER_PAGE }
+  // @ts-ignore overwrite 되지않게 메모리에 올라가있는거 쓰면 ts 에러나서 ignore 처리
+  const comments = await Comment.paginate({ postId }, options)
+  return comments
 }
-export async function addComment(postId: string, content: string) {
-  await $axios.post(`/api/posts/${postId}/comments`, { content })
+export const getPostById = async (postId: string) => {
+  await dbConnect()
+  try {
+    const post = await Post.findOne({ _id: postId })
+    // .populate('comments', 'author content', Comment)
+    return post
+  } catch (e) {
+    notFound()
+  }
+}
+export const getPostsByPagination = async (page: number) => {
+  await dbConnect()
+  const options = { page, limit: PER_PAGE }
+  // @ts-ignore overwrite 되지않게 메모리에 올라가있는거 쓰면 ts 에러나서 ignore 처리
+  const posts = await Post.paginate({}, options)
+  return posts
 }

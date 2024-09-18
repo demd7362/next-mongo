@@ -7,18 +7,13 @@ import { notFound } from 'next/navigation'
 import CommentInput from '@/app/posts/_components/CommentInput'
 import CommentList from '@/app/posts/_components/CommentList'
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher'
+import { getPostById } from '@/app/actions'
 
 
 
-export default async function Page({ params }: Params) {
+export default async function Page({ params, searchParams }: Params) {
   const { postId } = params
-  let post;
-  try {
-    const response = await $axios.get(`/api/posts/${postId}`)
-    post = response.data.data
-  } catch (e){
-    notFound()
-  }
+  const post = await getPostById(postId)
 
 
   return (
@@ -29,9 +24,7 @@ export default async function Page({ params }: Params) {
       </div>
       <ToastUiViewer content={post.content}/>
       <PostButtonWrapper />
-      <Suspense fallback={<div>loading...</div>}>
-        <CommentList postId={postId} />
-      </Suspense>
+      <CommentList postId={postId} searchParams={searchParams}/>
       <CommentInput postId={postId} />
     </div>
   )
