@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import Providers from '@/components/Providers'
-import ReactModal from 'react-modal'
-import CustomModal from '@/components/CustomModal'
+import InputModal from '@/components/InputModal'
+import AlertModal from '@/components/AlertModal'
 
 
 export const metadata: Metadata = {
@@ -15,7 +15,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="ko">
     <body>
       <Providers>
-        <CustomModal />
+        <AlertModal />
+        <InputModal />
         {children}
       </Providers>
     </body>

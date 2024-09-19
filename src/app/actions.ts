@@ -47,3 +47,29 @@ export const createComment = async (postId: string, content: string) => {
   })
   return true
 }
+
+export const modifyComment = async (commentId: string, content: string) => {
+  await dbConnect()
+  const username = await getUsernameBySession()
+  if (!username) {
+    return false
+  }
+  const result = await Comment.findOneAndUpdate({ _id: commentId, author: username }, {
+    $set: {
+      content
+    }
+  })
+  return !!result
+}
+
+export const deleteComment = async (commentId: string) => {
+  await dbConnect()
+  const username = await getUsernameBySession()
+  if (!username) {
+    return false
+  }
+  const result = await Comment.findOneAndDelete(
+    { _id: commentId, author: username }
+  )
+  return !!result
+}

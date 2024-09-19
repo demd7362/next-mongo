@@ -4,6 +4,7 @@ import ReactModal from 'react-modal'
 import React, { createContext, useContext, useState } from 'react'
 import Modal from 'react-modal';
 import { ModalContext } from '@/components/Providers'
+import { useAlertModal } from '@/store/modalStore'
 
 // 모달 스타일
 const customStyles = {
@@ -21,17 +22,11 @@ const customStyles = {
 // Modal.setAppElement('#__next');
 
 
-export default function CustomModal() {
-  const { isOpen, closeModal, openModal } = useContext(ModalContext)!;
+export default function AlertModal() {
+  const { isOpen, closeModal } = useAlertModal()
 
   return (
-    <div className="p-4">
-      <button
-        onClick={openModal}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        모달 열기
-      </button>
+    <div className="p-4 z-50">
       <Modal
         isOpen={isOpen}
         onRequestClose={closeModal}
