@@ -23,7 +23,9 @@ const customStyles = {
 
 
 export default function AlertModal() {
-  const { isOpen, closeModal } = useAlertModal()
+  const { isOpen,content, closeModal } = useAlertModal()
+
+  if(!isOpen) return null
 
   return (
     <div className="p-4 z-50">
@@ -33,8 +35,7 @@ export default function AlertModal() {
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <h2 className="text-2xl font-bold mb-4">모달 제목</h2>
-        <p className="mb-4">모달 내용입니다.</p>
+        <p className="mb-4">{content}</p>
         <button
           onClick={closeModal}
           className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"

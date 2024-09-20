@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 interface JwtCallbackObject {
   email: string;
-  nickname: string;
+  name: string;
   objectId: string;
   iat: number;
   exp: number;
@@ -11,7 +11,7 @@ interface JwtCallbackObject {
 declare module "next-auth" {
   interface Session {
     user: {
-      nickname: string;
+      name: string;
       email: string;
       token: JwtCallbackObject;
     };

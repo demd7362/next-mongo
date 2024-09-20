@@ -2,8 +2,9 @@
 import React, { useCallback } from 'react'
 import FormInput from '@/components/FormInput'
 import { useForm } from 'react-hook-form'
-import { signIn, useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useAlertModal } from '@/store/modalStore'
 
 interface LoginFormData {
   email: string;
@@ -11,8 +12,15 @@ interface LoginFormData {
 }
 
 export default function Page() {
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>()
+  const params = useSearchParams()
+  const { openModal,setCallback } = useAlertModal()
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>({
+    defaultValues: {
+      email: params.get('email') ?? ''
+    }
+  })
   const router = useRouter()
+
 
   const onSubmit = useCallback(async (data: LoginFormData) => {
     const response = await signIn('credentials', {
@@ -20,8 +28,8 @@ export default function Page() {
       password: data.password,
       redirect: false
     })
-    if(response?.error){
-      alert('로그인 실패')
+    if (response?.error) {
+      openModal('로그인 실패')
     } else {
       router.push('/')
     }

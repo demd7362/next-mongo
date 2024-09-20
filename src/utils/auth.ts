@@ -9,7 +9,7 @@ export const getUsernameByToken = async (req: NextRequest) => {
   if (!token) {
     return null
   }
-  const author = token.nickname
+  const author = token.name
   return author
 }
 
@@ -18,6 +18,6 @@ export const getUsernameBySession = async () => {
   if (!session) {
     return null
   }
-  const username = session.user.token.nickname
+  const username = session.user.token.name
   return username
 }

@@ -3,14 +3,23 @@ import { create } from 'zustand'
 
 interface AlertModalState {
   isOpen: boolean
-  openModal: () => void
+  content: string
+  openModal: (content: string) => void
   closeModal: () => void
+  setCallback: (callback: Function) => void
+  callback?: Function
 }
 
-export const useAlertModal = create<AlertModalState>((set) => ({
+export const useAlertModal = create<AlertModalState>((set, get) => ({
   isOpen: false,
-  openModal: () => set(({ isOpen: true })),
-  closeModal: () => set(({ isOpen: false }))
+  content: '',
+  setCallback: (callback: Function) => set(({ callback })),
+  openModal: (content) => set(({ isOpen: true, content })),
+  closeModal: async () => {
+    const state = get()
+    await state.callback?.()
+    set(() => ({ isOpen: false }))
+  }
 }))
 
 interface InputModalState {
@@ -20,7 +29,7 @@ interface InputModalState {
   openModal: (modalName: string) => void
   closeModal: () => void
   setContent: (content: string) => void
-  callback: Function
+  callback?: Function
   setCallback: (callback: Function) => void
 }
 
@@ -31,11 +40,9 @@ export const useInputModal = create<InputModalState>((set, get) => ({
   openModal: (modalName: string) => set({ isOpen: true, modalName }),
   closeModal: async () => {
     const state = get()
-    await state.callback()
-    state.isOpen = false
-    state.content = ''
+    await state.callback?.()
+    set(() => ({ isOpen: false, content: '' }))
   },
   setContent: (content: string) => set({ content }),
-  callback: () => {},
   setCallback: (callback: Function) => set({ callback })
 }))

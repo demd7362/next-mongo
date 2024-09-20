@@ -40,7 +40,7 @@ export const authOptions: NextAuthOptions = {
 
         return {
           email: user.get('email'),
-          nickname: user.get('nickname'),
+          name: user.get('nickname'),
           objectId: user.get('_id')
         }
       }
@@ -50,6 +50,10 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.KAKAO_CLIENT_SECRET!
     })
   ],
+  session: {
+    strategy: 'jwt',
+    maxAge: 7200
+  },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/login'
@@ -57,6 +61,21 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     // account.provider 로 provider 조회 가능
     async jwt({ token, user, account, profile }) {
+      if (account?.provider && account.provider !== 'credential') {
+        await dbConnect()
+        let $user = await User.findOne({ email: `${account.provider}$${account.providerAccountId}` })
+        if (!$user) {
+          $user = await User.create({
+            nickname: user.name,
+            password: 'kakao$' + user.id,
+            email: 'kakao$' + user.id,
+            provider: account.provider
+          })
+          if(!$user){
+            throw new Error('Failed to create user.')
+          }
+        }
+      }
       return { ...token, ...user }
     },
 

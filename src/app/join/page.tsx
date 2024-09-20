@@ -17,7 +17,7 @@ export default function Page() {
   const router = useRouter()
   const onSubmit = useCallback(async (data: SignUpFormData) => {
     await $axios.post('/api/users', data)
-    router.push('/login')
+    router.push(`/login?email=${data.email}`)
   }, [router])
 
   return (

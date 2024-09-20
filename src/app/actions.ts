@@ -1,11 +1,11 @@
 'use server'
 import dbConnect from '@/app/_db/mongo'
 import Comment from '@/app/_db/models/Comment'
-import { NextResponse } from 'next/server'
 import Post from '@/app/_db/models/Post'
 import { notFound } from 'next/navigation'
-import { getUsernameByToken, getUsernameBySession } from '@/utils/auth'
-import { getServerSession } from 'next-auth'
+import { getUsernameBySession } from '@/utils/auth'
+import { promises as fs } from 'fs'
+import path from 'path'
 
 const PER_PAGE = 10
 
@@ -28,7 +28,11 @@ export const getPostById = async (postId: string) => {
 }
 export const getPostsByPagination = async (page: number) => {
   await dbConnect()
-  const options = { page, limit: PER_PAGE }
+  const options = {
+    page,
+    limit: PER_PAGE,
+    sort: { createdAt: -1 }
+  }
   // @ts-ignore overwrite 되지않게 메모리에 올라가있는거 쓰면 ts 에러나서 ignore 처리
   const posts = await Post.paginate({}, options)
   return posts
@@ -37,7 +41,7 @@ export const getPostsByPagination = async (page: number) => {
 export const createComment = async (postId: string, content: string) => {
   await dbConnect()
   const author = await getUsernameBySession()
-  if(!author){
+  if (!author) {
     return false
   }
   await Comment.create({
@@ -72,4 +76,39 @@ export const deleteComment = async (commentId: string) => {
     { _id: commentId, author: username }
   )
   return !!result
+}
+
+export const uploadFile = async (formData: FormData) => {
+  const file = formData.get('file') as File
+  const buffer = await file.arrayBuffer()
+  // Next.js 프로젝트의 public 디렉토리 경로
+  const uploadPath = path.join(process.cwd(), 'public', file.name)
+
+  await fs.appendFile(uploadPath, Buffer.from(buffer))
+  return `/${file.name}`
+}
+
+interface PostData {
+  title: string
+  content: string
+}
+
+export const createPost = async (data: PostData): Promise<{ postId: string | null }> => {
+  const { title, content } = data
+  const author = await getUsernameBySession()
+  if (!author) {
+    return {
+      postId: null
+    }
+  }
+  await dbConnect()
+  const $post = await Post.create({
+    title,
+    content,
+    author
+  })
+  const postId = await $post.get('_id')
+  return {
+    postId
+  }
 }

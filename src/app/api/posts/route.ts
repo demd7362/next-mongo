@@ -15,18 +15,3 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({ data: result })
 }
 
-export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions)
-  if (!session) {
-    return NextResponse.redirect(new URL('/login', req.url))
-  }
-  await dbConnect()
-  const body = await req.json()
-  const author = session.user.token.nickname
-  await Post.create({
-    ...body,
-    author
-  })
-  return NextResponse.json({}, { status: 200 })
-
-}

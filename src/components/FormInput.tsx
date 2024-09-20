@@ -12,15 +12,16 @@ interface InputProps {
   [key: string]: any;
 }
 
-export default function FormInput({
-                                    id,
-                                    type = 'text',
-                                    label,
-                                    register,
-                                    validation,
-                                    error,
-                                    ...props
-                                  }: InputProps): ReactNode {
+export default function FormInput(
+  {
+    id,
+    type = 'text',
+    label,
+    register,
+    validation,
+    error,
+    ...props
+  }: InputProps): ReactNode {
   return (
     <>
       <label htmlFor={id} className="block mb-2 text-sm font-medium text-gray-700">

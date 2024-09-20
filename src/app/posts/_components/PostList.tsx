@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { formatDate } from '@/utils/date'
+import { formatDate, formatDateTime } from '@/utils/date'
 import { getPostsByPagination } from '@/app/actions'
 import { Pagination, SearchParams } from '@/types/global'
 
@@ -37,7 +37,7 @@ export default async function PostList({ searchParams }: SearchParams) {
           </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-          {pagination.docs.reverse().map((post) => (
+          {pagination.docs.map((post) => (
             <tr key={post._id}>
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600 hover:text-blue-800">
                 <Link href={`/posts/${post._id}`}>
@@ -45,7 +45,7 @@ export default async function PostList({ searchParams }: SearchParams) {
                 </Link>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{post.author}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(post.createdAt)}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDateTime(post.createdAt)}</td>
             </tr>
           ))}
           </tbody>

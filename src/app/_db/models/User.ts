@@ -4,12 +4,14 @@ export interface IUser extends Document {
   nickname: string;
   email: string;
   password: string;
+  provider?: string;
 }
 
 const userSchema: Schema = new Schema({
   nickname: { type: String, required: true, unique: true, trim: true },
   email: { type: String, required: true, unique: true, trim: true },
-  password: { type: String, required: true }
+  password: { type: String, required: true },
+  provider: { type: String, required: false },
 }, {
   timestamps: true, // createdAt, updatedAt 필드 추가
   versionKey: false // __v 필드에서 삭제
