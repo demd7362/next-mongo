@@ -4,4 +4,12 @@
 
 ## docker
 docker-compose up -d
+
+- terminal
 docker exec -it my-mongo bash
+
+- volume creation
+docker volume create [volume_name]
+
+- volume info
+docker volume inspect [volume_name]
