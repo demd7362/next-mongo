@@ -6,6 +6,9 @@ services:
     ports:
       - "127.0.0.1:27017:27017"
     volumes:
-      - /data/db
+      - mongo_volume:/data/db
 
 # docker exec -it my-mongo bash
+volumes:
+  mongo_volume:
+    external: true

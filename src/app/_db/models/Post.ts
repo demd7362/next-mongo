@@ -1,13 +1,13 @@
-import mongoose, { Document, Schema } from 'mongoose';
-import mongoosePaginate from 'mongoose-paginate-v2';
+import mongoose, { Document, Schema } from 'mongoose'
+import mongoosePaginate from 'mongoose-paginate-v2'
 
 export interface IPost extends Document {
   title: string;
   content: string;
   author: string;
-  tags: string[];
   likes: number;
-  comments: mongoose.Types.ObjectId[]; // 수정된 부분
+  dislikes: number;
+  // comments: mongoose.Types.ObjectId[]; // 수정된 부분
 }
 
 const postSchema: Schema = new Schema({
@@ -24,21 +24,21 @@ const postSchema: Schema = new Schema({
     type: String,
     required: true
   },
-  likes: { // 좋아요 수
+  likes: {
     type: Number,
     default: 0
   },
-  comments: [{ // 댓글 목록
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Comment' // 몽구스에 등록된 모델명 입력해야함. Collection명이 아님
-  }]
+  dislikes: {
+    type: Number,
+    default: 0
+  }
 }, {
   timestamps: true, // createdAt, updatedAt 필드 추가
   versionKey: false // __v 필드에서 삭제
-});
+})
 
-postSchema.plugin(mongoosePaginate);
+postSchema.plugin(mongoosePaginate)
 
-const Post = mongoose.models.Post || mongoose.model<IPost, mongoose.PaginateModel<IPost>>('Post', postSchema, 'post');
+const Post = mongoose.models.Post || mongoose.model<IPost, mongoose.PaginateModel<IPost>>('Post', postSchema, 'post')
 
-export default Post;
+export default Post

@@ -1,27 +1,38 @@
 import MainButtonWrapper from '@/components/MainButtonWrapper'
+import { Github } from 'lucide-react'
 
 export default function Page() {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900">Next + Mongo Demo</h1>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col">
+      <header className="bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+          <h1 className="text-2xl font-bold">Next Mongo Demo</h1>
+          <a href="https://github.com/demd7362" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-700">
+            <Github size={24} />
+          </a>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <div className="border-4 border-dashed border-gray-200 rounded-lg h-96 flex flex-col items-center justify-center space-y-4">
-            <h2 className="text-2xl font-semibold text-gray-700">Welcome to My App</h2>
-            <p className="text-gray-500">Get started by exploring our features</p>
+      <main className="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8">
+        <div className="max-w-xl w-full space-y-8">
+          <div>
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+              Welcome to NextMongo Hub
+            </h2>
+            <p className="mt-2 text-center text-sm text-gray-600">
+              Explore the power of Next.js and MongoDB integration
+            </p>
+          </div>
+          <div className="mt-8 space-y-6">
             <MainButtonWrapper />
           </div>
         </div>
       </main>
-      <footer className="bg-white shadow mt-8">
+
+      <footer className="bg-white">
         <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
           <p className="text-center text-gray-500 text-sm">
-            Mongoose is awesome.
+            Built with using Next.js and MongoDB
           </p>
         </div>
       </footer>

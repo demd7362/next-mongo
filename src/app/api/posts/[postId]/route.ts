@@ -32,16 +32,3 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   return NextResponse.json({})
 }
 
-export async function DELETE(req: NextRequest, { params }: Params) {
-  await dbConnect()
-  const { postId } = params
-  const author = await getUsernameByToken(req)
-  if (!author) {
-    return NextResponse.json({}, { status: 401 })
-  }
-  const result = await Post.findOneAndDelete({ _id: postId, author })
-  if (!result) {
-    return NextResponse.json({}, { status: 401 })
-  }
-  return NextResponse.json({})
-}

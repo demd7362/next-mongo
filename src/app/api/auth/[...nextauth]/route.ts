@@ -22,11 +22,11 @@ export const authOptions: NextAuthOptions = {
         if (!email || !password) {
           return null
         }
-        const user = await User.findOne({ email })
-        if (!user) {
+        const $user = await User.findOne({ email })
+        if (!$user) {
           return null
         }
-        const dbPassword = user.get('password')
+        const dbPassword = $user.get('password')
         const isMatch = await bcrypt.compare(password, dbPassword)
         if (!isMatch) {
           return null
@@ -39,9 +39,9 @@ export const authOptions: NextAuthOptions = {
         // }
 
         return {
-          email: user.get('email'),
-          name: user.get('nickname'),
-          objectId: user.get('_id')
+          email: $user.get('email'),
+          name: $user.get('nickname'),
+          objectId: $user.get('_id')
         }
       }
     }),
@@ -75,6 +75,7 @@ export const authOptions: NextAuthOptions = {
             throw new Error('Failed to create user.')
           }
         }
+        token.objectId = $user.get('_id')
       }
       return { ...token, ...user }
     },

@@ -20,14 +20,14 @@ export default function Page() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     if (!title) {
-      openModal('제목을 입력해주세요.')
+      // openModal('제목을 입력해주세요.')
       return
     }
 
     // const markdownContent = editorRef.current?.getInstance().getMarkdown();
     const content = editorRef.current?.getInstance().getHTML()
     if (content === EMPTY_CONTENT) {
-      openModal('내용을 입력해주세요.')
+      // openModal('내용을 입력해주세요.')
       return
     }
     const data = { title, content }
@@ -62,7 +62,7 @@ export default function Page() {
   return (
     <div className="container mx-auto px-4 py-8">
       <form onSubmit={handleSubmit} className="space-y-6">
-        <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} required className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" />
+        <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} required className="mt-1 pl-1 block w-full rounded-md shadow-sm border focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" />
         <ToastUiEditor editorRef={editorRef} />
         <div className="flex justify-end">
           <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">

@@ -21,3 +21,12 @@ export const getUsernameBySession = async () => {
   const username = session.user.token.name
   return username
 }
+
+export const getUserIdBySession = async () => {
+  const session = await getServerSession(authOptions)
+  if (!session) {
+    return null
+  }
+  const id = session.user.token.objectId
+  return id
+}
