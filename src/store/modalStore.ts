@@ -29,9 +29,10 @@ interface InputModalState {
   openModal: (modalName: string) => void
   closeModal: () => void
   setContent: (content: string) => void
-  callback?: Function
-  setCallback: (callback: Function) => void
+  callback?: InputModalFunction
+  setCallback: (callback: InputModalFunction) => void
 }
+type InputModalFunction = (arg?: InputModalState) => void | Promise<void>
 
 export const useInputModal = create<InputModalState>((set, get) => ({
   isOpen: false,
@@ -40,9 +41,9 @@ export const useInputModal = create<InputModalState>((set, get) => ({
   openModal: (modalName: string) => set({ isOpen: true, modalName }),
   closeModal: async () => {
     const state = get()
-    await state.callback?.()
+    await state.callback?.(state)
     set(() => ({ isOpen: false, content: '' }))
   },
   setContent: (content: string) => set({ content }),
-  setCallback: (callback: Function) => set({ callback })
+  setCallback: (callback: InputModalFunction) => set({ callback })
 }))

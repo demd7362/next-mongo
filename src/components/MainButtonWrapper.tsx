@@ -3,7 +3,7 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import Image from 'next/image'
 import kakaoLogin from '@/static/kakao_login_large_narrow.png'
-import { Loader2, LogIn, LogOut, MessageSquare, UserPlus } from 'lucide-react'
+import { InfoIcon, Loader2, LogIn, LogOut, MessageSquare, User, User2, UserPlus } from 'lucide-react'
 
 export default function MainButtonWrapper() {
   const { data: session, status } = useSession()
@@ -18,8 +18,14 @@ export default function MainButtonWrapper() {
   return (
     <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
       {session ? (
-        <button className="flex items-center justify-center px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-300 ease-in-out transform hover:-translate-y-1" onClick={() => signOut()}>
-          <LogOut className="mr-2 h-5 w-5" /> 로그아웃 </button>
+        <>
+          <button className="flex items-center justify-center px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-300 ease-in-out transform hover:-translate-y-1" onClick={() => signOut()}>
+            <LogOut className="mr-2 h-5 w-5" /> 로그아웃
+          </button>
+          <button className="flex items-center justify-center px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition duration-300 ease-in-out transform hover:-translate-y-1" onClick={() => signOut()}>
+            <User className="mr-2 h-5 w-5" /> 정보 수정
+          </button>
+        </>
       ) : (
         <>
           <Link href="/login">

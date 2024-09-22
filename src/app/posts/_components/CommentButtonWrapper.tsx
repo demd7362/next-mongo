@@ -10,7 +10,7 @@ interface CommentButtonProps {
 
 export default function CommentButtonWrapper({ commentId }: CommentButtonProps) {
   const router = useRouter()
-  const { openModal, setCallback, content } = useInputModal()
+  const { openModal, setCallback } = useInputModal()
   const handleModifyComment = async (content: string) => {
     const isModified = await modifyComment(commentId, content)
     if (isModified) {
