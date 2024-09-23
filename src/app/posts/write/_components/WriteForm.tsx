@@ -1,10 +1,8 @@
 'use client'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { FormEvent, useEffect, useRef, useState } from 'react'
-import $axios from '@/utils/axios'
-import ToastUiEditor from '@/components/ToastUiEditor'
 import { Editor } from '@toast-ui/react-editor'
-import { createPost } from '@/app/actions'
+import { createPost, getPostById, modifyPost } from '@/app/actions'
 import { useAlertModal } from '@/store/modalStore'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
@@ -39,7 +37,7 @@ export default function WriteForm() {
     }
     const data = { title, content }
     if (postId) {
-      await $axios.patch(`/api/posts/${postId}`, { ...data, id: postId })
+      await modifyPost({ ...data, postId })
       router.push(`/posts/${postId}`)
     } else {
       const { postId } = await createPost(data)
@@ -55,7 +53,7 @@ export default function WriteForm() {
   }
 
   const getPostData = async () => {
-    const response = await $axios.get(`/api/posts/${postId}`)
+    const response = await getPostById(postId!)
     const postData = response.data.data
     setTitle(postData.title)
     editorRef.current?.getInstance().setHTML(postData.content)

@@ -7,8 +7,21 @@ import { getUserIdBySession, getUsernameBySession } from '@/utils/auth'
 import { promises as fs } from 'fs'
 import path from 'path'
 import PostLike from '@/app/_db/models/PostLike'
+import User from '@/app/_db/models/User'
+import { SignUpFormData } from '@/app/join/page'
 
 const PER_PAGE = 10
+
+export const signUp = async (data: SignUpFormData) => {
+  await dbConnect()
+  const { password } = data
+  const bcrypt = require('bcrypt')
+  const hashedPassword = await bcrypt.hash(password, 10)
+  data.password = hashedPassword
+  const $user = await User.create(data)
+  return !!$user
+}
+
 
 export const getCommentsByPagination = async (postId: string, page: number) => {
   await dbConnect()
@@ -26,6 +39,21 @@ export const getPostById = async (postId: string) => {
   } catch (e) {
     notFound()
   }
+}
+
+interface PostDataWithId extends PostData {
+  postId: string
+}
+
+export const modifyPost = async (data: PostDataWithId) => {
+  const { title, content, postId } = data
+  await dbConnect()
+  const author = await getUsernameBySession()
+  if (!author) {
+    return false
+  }
+  const $post = await Post.findOneAndUpdate({ _id: postId, author }, { $set: { title, content } })
+  return !!$post
 }
 export const getPostsByPagination = async (page: number) => {
   await dbConnect()
