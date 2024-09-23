@@ -1,14 +1,17 @@
 import React from 'react'
 import { formatDateTime } from '@/utils/date'
-import ToastUiViewer from '@/components/ToastUiViewer'
 import PostButtonWrapper from '@/components/PostButtonWrapper'
 import CommentInput from '@/app/posts/_components/CommentInput'
 import CommentList from '@/app/posts/_components/CommentList'
-import { Params } from 'next/dist/shared/lib/router/utils/route-matcher'
 import { getPostById } from '@/app/actions'
+import dynamic from 'next/dynamic'
+
+const DynamicViewer = dynamic(() => import('@/components/ToastUiViewer'), {
+  ssr: false
+})
 
 
-export default async function Page({ params, searchParams }: Params) {
+export default async function Page({ params, searchParams }: any) {
   const { postId } = params
   const post = await getPostById(postId)
 
@@ -21,7 +24,7 @@ export default async function Page({ params, searchParams }: Params) {
         <b> 좋아요 {post.likes}</b>
         <b> 싫어요 {post.dislikes}</b>
       </div>
-      <ToastUiViewer content={post.content}/>
+      <DynamicViewer content={post.content}/>
       <PostButtonWrapper />
       <CommentList postId={postId} searchParams={searchParams}/>
       <CommentInput postId={postId} />

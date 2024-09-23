@@ -85,7 +85,7 @@ export default function ToastUiEditor({ content, editorRef }: Props) {
               attributes: node.attrs
             },
             { type: 'html', content: node.childrenHTML },
-            { type: 'closeTag', tagName: 'iframe', outerNewLine: true }
+            { type: 'closeTag', tagName: 'iframe', outerNewLine: false }
           ]
         }
       }

@@ -16,7 +16,7 @@ export interface Post {
   updatedAt: string;
 }
 
-export default async function Page({ searchParams }: SearchParams) {
+export default async function Page({ searchParams }: any) {
   const page = Number(searchParams['page'] || '1')
   const pagination: Pagination = await getPostsByPagination(page)
 

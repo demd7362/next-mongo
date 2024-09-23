@@ -1,8 +1,6 @@
 import dbConnect from '@/app/_db/mongo'
 import { NextRequest, NextResponse } from 'next/server'
 import Post from '@/app/_db/models/Post'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
 export async function GET(req: NextRequest) {
   await dbConnect()
