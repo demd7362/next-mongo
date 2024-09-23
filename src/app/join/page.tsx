@@ -25,7 +25,7 @@ export default function Page() {
     } else {
       openModal('서버에서 에러가 발생했습니다.')
     }
-  }, [router])
+  }, [router, openModal])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 to-purple-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
