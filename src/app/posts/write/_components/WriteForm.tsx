@@ -69,7 +69,7 @@ export default function WriteForm() {
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label htmlFor="title" className="block text-sm font-medium text-gray-700">제목</label>
-          <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} required className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="제목을 입력하세요" />
+          <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} required className="mt-1 pl-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="제목을 입력하세요" />
         </div>
 
         <div>

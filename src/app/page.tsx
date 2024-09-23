@@ -1,5 +1,4 @@
 import MainButtonWrapper from '@/components/MainButtonWrapper'
-import { Github } from 'lucide-react'
 
 export default function Page() {
   return (
@@ -7,9 +6,6 @@ export default function Page() {
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <h1 className="text-2xl font-bold">Next Mongo Demo</h1>
-          <a href="https://github.com/demd7362" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-700">
-            <Github size={24} />
-          </a>
         </div>
       </header>
 
