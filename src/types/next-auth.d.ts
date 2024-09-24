@@ -15,5 +15,6 @@ declare module "next-auth" {
       email: string;
       token: JwtCallbackObject;
     };
+    // maxAge: number;
   }
 }

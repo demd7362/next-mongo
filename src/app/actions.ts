@@ -9,6 +9,7 @@ import path from 'path'
 import PostLike from '@/app/_db/models/PostLike'
 import User from '@/app/_db/models/User'
 import { SignUpFormData } from '@/app/join/page'
+import logger from '@/lib/logger'
 
 const PER_PAGE = 10
 
@@ -18,8 +19,13 @@ export const signUp = async (data: SignUpFormData) => {
   const bcrypt = require('bcrypt')
   const hashedPassword = await bcrypt.hash(password, 10)
   data.password = hashedPassword
-  const $user = await User.create(data)
-  return !!$user
+  try {
+    const $user = await User.create(data)
+    return !!$user
+  } catch (e) {
+    logger.error(e)
+    return false
+  }
 }
 
 
@@ -189,4 +195,10 @@ export const changeLikes = async (postId: string, isLike: boolean) => {
     }
   }
   return true
+}
+
+export const checkDuplicate = async (field: keyof Pick<SignUpFormData, 'nickname' | 'email'>, value: string) => {
+  await dbConnect()
+  const $user = await User.findOne({ [field]: value })
+  return !!$user
 }

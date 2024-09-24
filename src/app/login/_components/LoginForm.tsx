@@ -6,6 +6,7 @@ import React, { useCallback } from 'react'
 import { signIn } from 'next-auth/react'
 import FormInput from '@/components/FormInput'
 import { LogIn } from 'lucide-react'
+import Link from 'next/link'
 
 
 interface LoginFormData {
@@ -42,7 +43,7 @@ export default function LoginForm() {
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">로그인</h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          또는 <a href="/signup" className="font-medium text-indigo-600 hover:text-indigo-500"> 새 계정 만들기 </a>
+          또는 <Link href="/join" className="font-medium text-indigo-600 hover:text-indigo-500"> 새 계정 만들기 </Link>
         </p>
       </div>
 
@@ -69,7 +70,7 @@ export default function LoginForm() {
               </div>
 
               <div className="text-sm">
-                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500"> 비밀번호를 잊으셨나요? </a>
+                <Link href="/missing" className="font-medium text-indigo-600 hover:text-indigo-500"> 비밀번호를 잊으셨나요? </Link>
               </div>
             </div>
 
