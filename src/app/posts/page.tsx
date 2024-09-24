@@ -1,24 +1,13 @@
 import React from 'react'
 import Link from 'next/link'
-import { formatDate, formatDateTime } from '@/utils/date'
+import { formatDateTime } from '@/utils/date'
 import { getPostsByPagination } from '@/app/actions'
-import { Pagination, SearchParams } from '@/types/global'
-import { PenSquare, ChevronLeft, ChevronRight, ThumbsUp, MessageCircle } from 'lucide-react'
+import { ChevronLeft, ChevronRight, PenSquare, ThumbsUp } from 'lucide-react'
 
-export interface Post {
-  _id: number;
-  title: string;
-  content: string;
-  author: string;
-  likes: number;
-  dislikes: number;
-  createdAt: string;
-  updatedAt: string;
-}
 
 export default async function Page({ searchParams }: any) {
   const page = Number(searchParams['page'] || '1')
-  const pagination: Pagination = await getPostsByPagination(page)
+  const pagination: PostPagination = await getPostsByPagination(page)
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -36,6 +25,7 @@ export default async function Page({ searchParams }: any) {
               <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">제목</th>
               <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">작성자</th>
               <th className="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">추천</th>
+              <th className="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">조회수</th>
               <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">작성일</th>
             </tr>
             </thead>
@@ -53,6 +43,9 @@ export default async function Page({ searchParams }: any) {
                     <ThumbsUp size={16} className="text-indigo-500 mr-1" />
                     {post.likes}
                   </div>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                  {post.views}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDateTime(post.createdAt)}</td>
               </tr>

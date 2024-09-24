@@ -10,6 +10,7 @@ import PostLike from '@/app/_db/models/PostLike'
 import User from '@/app/_db/models/User'
 import { SignUpFormData } from '@/app/join/page'
 import logger from '@/lib/logger'
+import { Comme } from 'next/dist/compiled/@next/font/dist/google'
 
 const PER_PAGE = 10
 
@@ -39,7 +40,7 @@ export const getCommentsByPagination = async (postId: string, page: number) => {
 export const getPostById = async (postId: string) => {
   await dbConnect()
   try {
-    const $post = await Post.findOne({ _id: postId })
+    const $post = await Post.findOneAndUpdate({ _id: postId }, { $inc: { views: 1 } })
     // .populate('comments', 'author content', Comment)
     return $post
   } catch (e) {
@@ -156,6 +157,7 @@ export const deletePost = async (postId: string) => {
   const result = await Post.findOneAndDelete({ _id: postId, author })
   if (result) {
     await PostLike.deleteMany({ _id: postId })
+    await Comment.deleteMany({ _id: postId })
     return true
   } else {
     return false

@@ -63,7 +63,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     // account.provider 로 provider 조회 가능
     async jwt({ token, user, account, profile }) {
-      if (account?.provider && account.provider !== 'credential') {
+      if (account?.provider && account.provider !== 'credentials') {
         await dbConnect()
         let $user = await User.findOne({ email: `${account.provider}$${account.providerAccountId}` })
         if (!$user) {

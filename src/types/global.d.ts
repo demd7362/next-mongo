@@ -1,11 +1,9 @@
-import { Post } from '@/app/posts/_components/PostList'
 
 interface SearchParams {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
 interface Pagination {
-  docs: Post[];
   totalDocs: number;
   limit: number;
   totalPages: number;
@@ -15,4 +13,20 @@ interface Pagination {
   hasNextPage: boolean;
   prevPage: number;
   nextPage: number;
+}
+
+interface PostPagination extends Pagination {
+  docs: Post[];
+}
+
+interface Post {
+  _id: number;
+  title: string;
+  content: string;
+  author: string;
+  likes: number;
+  dislikes: number;
+  views: number;
+  createdAt: string;
+  updatedAt: string;
 }

@@ -7,6 +7,7 @@ export interface IPost extends Document {
   author: string;
   likes: number;
   dislikes: number;
+  views: number;
   // comments: mongoose.Types.ObjectId[]; // 수정된 부분
 }
 
@@ -29,6 +30,10 @@ const postSchema: Schema = new Schema({
     default: 0
   },
   dislikes: {
+    type: Number,
+    default: 0
+  },
+  views: {
     type: Number,
     default: 0
   }
