@@ -120,7 +120,8 @@ export const uploadFile = async (formData: FormData) => {
   const buffer = await file.arrayBuffer()
   // Next.js 프로젝트의 public 디렉토리 경로
   const uploadPath = path.join(process.cwd(), 'public', file.name)
-  const pathExists = exists(uploadPath)
+  const uploadDir = path.join(process.cwd(), 'public')
+  const pathExists = await exists(uploadDir)
   if(!pathExists){
     await fs.mkdir(uploadPath, {recursive: true})
   }
