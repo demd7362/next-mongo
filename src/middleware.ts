@@ -10,7 +10,7 @@ export async function middleware(req: NextRequest) {
   if(notAllowed.has(path)){
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
     if (!token) {
-      return NextResponse.redirect(new URL('/login', req.url));
+      return NextResponse.redirect(new URL(`/login?redirect_url=${path}`, req.url));
     }
   }
 

@@ -15,9 +15,9 @@ const DynamicEditor = dynamic(() => import('@/components/ToastUiEditor'), {
 })
 
 export default function WriteForm() {
-  const searchParams = useSearchParams()
+  const queryParams = useSearchParams()
   const { openModal } = useAlertModal()
-  const postId = searchParams.get('id')
+  const postId = queryParams.get('id')
 
   const [title, setTitle] = useState('')
   const router = useRouter()

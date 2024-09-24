@@ -11,6 +11,7 @@ import User from '@/app/_db/models/User'
 import { SignUpFormData } from '@/app/join/page'
 import logger from '@/lib/logger'
 import { Comme } from 'next/dist/compiled/@next/font/dist/google'
+import { exists } from '@/utils/file'
 
 const PER_PAGE = 10
 
@@ -119,7 +120,10 @@ export const uploadFile = async (formData: FormData) => {
   const buffer = await file.arrayBuffer()
   // Next.js 프로젝트의 public 디렉토리 경로
   const uploadPath = path.join(process.cwd(), 'public', file.name)
-
+  const pathExists = exists(uploadPath)
+  if(!pathExists){
+    await fs.mkdir(uploadPath, {recursive: true})
+  }
   await fs.appendFile(uploadPath, Buffer.from(buffer))
   return `/${file.name}`
 }

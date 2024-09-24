@@ -16,11 +16,11 @@ interface LoginFormData {
 
 
 export default function LoginForm() {
-  const params = useSearchParams()
+  const queryParams = useSearchParams()
   const { openModal } = useAlertModal()
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>({
     defaultValues: {
-      email: params.get('email') ?? ''
+      email: queryParams.get('email') ?? ''
     }
   })
   const router = useRouter()
@@ -34,9 +34,9 @@ export default function LoginForm() {
     if (response?.error) {
       openModal('로그인 실패')
     } else {
-      router.push('/')
+      router.push(queryParams.get('redirect_url') ?? '/')
     }
-  }, [router, openModal])
+  }, [router, openModal, queryParams])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
