@@ -8,6 +8,7 @@ import bcrypt from 'bcrypt'
 import KakaoProvider from 'next-auth/providers/kakao'
 import NaverProvider from 'next-auth/providers/naver'
 import GoogleProvider from 'next-auth/providers/google'
+import logger from '@/lib/logger'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -77,7 +78,7 @@ export const authOptions: NextAuthOptions = {
         await dbConnect()
         const uniqueValue = `${account.provider}$${account.providerAccountId}`
         let $user = await User.findOne({ email: uniqueValue })
-        console.log('user, uv', $user, uniqueValue)
+        logger.info('user, uv', $user, uniqueValue)
         if (!$user) {
           $user = await User.create({
             nickname: uniqueValue,
