@@ -16,7 +16,7 @@ export default function MainButtonWrapper() {
   }
 
   return (
-    <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
+    <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4 justify-center">
       {session ? (
         <>
           <button className="flex items-center justify-center px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-300 ease-in-out transform hover:-translate-y-1" onClick={() => signOut()}>
