@@ -1,11 +1,13 @@
 import { getToken } from 'next-auth/jwt'
 import { NextRequest } from 'next/server'
-import { AuthOptions, getServerSession, NextAuthOptions } from 'next-auth'
+import { getServerSession, NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import dbConnect from '@/app/_db/mongo'
 import User from '@/app/_db/models/User'
 import bcrypt from 'bcrypt'
 import KakaoProvider from 'next-auth/providers/kakao'
+import NaverProvider from 'next-auth/providers/naver'
+import GoogleProvider from 'next-auth/providers/google'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -49,7 +51,15 @@ export const authOptions: NextAuthOptions = {
     }),
     KakaoProvider({
       clientId: process.env.KAKAO_CLIENT_ID!,
-      clientSecret: process.env.KAKAO_CLIENT_SECRET!
+      clientSecret: process.env.KAKAO_CLIENT_SECRET!,
+    }),
+    NaverProvider({
+      clientId: process.env.NAVER_CLIENT_ID!,
+      clientSecret: process.env.NAVER_CLIENT_SECRET!
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!
     })
   ],
   session: {
@@ -65,15 +75,16 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, account, profile }) {
       if (account?.provider && account.provider !== 'credentials') {
         await dbConnect()
-        let $user = await User.findOne({ email: `${account.provider}$${account.providerAccountId}` })
+        const uniqueValue = `${account.provider}$${account.providerAccountId}`
+        let $user = await User.findOne({ email: uniqueValue })
         if (!$user) {
           $user = await User.create({
-            nickname: user.name,
-            password: 'kakao$' + user.id,
-            email: 'kakao$' + user.id,
+            nickname: uniqueValue,
+            password: uniqueValue,
+            email: uniqueValue,
             provider: account.provider
           })
-          if(!$user){
+          if (!$user) {
             throw new Error('Failed to create user.')
           }
         }

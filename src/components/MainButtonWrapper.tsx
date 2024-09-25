@@ -28,25 +28,16 @@ export default function MainButtonWrapper() {
         </>
       ) : (
         <>
-          <Link href="/login">
-            <button className="flex items-center justify-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300 ease-in-out transform hover:-translate-y-1">
-              <LogIn className="mr-2 h-5 w-5" /> 로그인
-            </button>
+          <Link href="/login" className="cursor-pointer flex items-center justify-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300 ease-in-out transform hover:-translate-y-1">
+            <LogIn className="mr-2 h-5 w-5" /> 로그인
           </Link>
-          <button className="flex items-center justify-center" onClick={() => signIn('kakao')}>
-            <Image src={kakaoLogin} width={183} height={45} alt="Kakao Login" className="rounded-md transition duration-300 ease-in-out transform hover:-translate-y-1" priority quality={100} />
-          </button>
         </>
       )}
-      <Link href="/join">
-        <button className="flex items-center justify-center px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition duration-300 ease-in-out transform hover:-translate-y-1">
-          <UserPlus className="mr-2 h-5 w-5" /> 회원가입
-        </button>
+      <Link href="/join" className="cursor-pointer flex items-center justify-center px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition duration-300 ease-in-out transform hover:-translate-y-1">
+        <UserPlus className="mr-2 h-5 w-5" /> 회원가입
       </Link>
-      <Link href="/posts">
-      <button className="flex items-center justify-center px-4 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 transition duration-300 ease-in-out transform hover:-translate-y-1">
+      <Link href="/posts" className="cursor-pointer flex items-center justify-center px-4 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 transition duration-300 ease-in-out transform hover:-translate-y-1">
         <MessageSquare className="mr-2 h-5 w-5" /> 게시판
-      </button>
       </Link>
     </div>
   )
