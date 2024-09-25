@@ -51,7 +51,7 @@ export const authOptions: NextAuthOptions = {
     }),
     KakaoProvider({
       clientId: process.env.KAKAO_CLIENT_ID!,
-      clientSecret: process.env.KAKAO_CLIENT_SECRET!,
+      clientSecret: process.env.KAKAO_CLIENT_SECRET!
     }),
     NaverProvider({
       clientId: process.env.NAVER_CLIENT_ID!,
@@ -77,6 +77,7 @@ export const authOptions: NextAuthOptions = {
         await dbConnect()
         const uniqueValue = `${account.provider}$${account.providerAccountId}`
         let $user = await User.findOne({ email: uniqueValue })
+        console.log('user, uv', $user, uniqueValue)
         if (!$user) {
           $user = await User.create({
             nickname: uniqueValue,
