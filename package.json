@@ -12,6 +12,7 @@
     "@toast-ui/react-editor": "^3.2.3",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/react-modal": "^3.16.3",
+    "@vercel/blob": "^0.24.0",
     "@vercel/speed-insights": "^1.0.12",
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",

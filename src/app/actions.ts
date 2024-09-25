@@ -4,14 +4,11 @@ import Comment from '@/app/_db/models/Comment'
 import Post from '@/app/_db/models/Post'
 import { notFound } from 'next/navigation'
 import { getUserIdBySession, getUsernameBySession } from '@/utils/auth'
-import { promises as fs } from 'fs'
-import path from 'path'
 import PostLike from '@/app/_db/models/PostLike'
 import User from '@/app/_db/models/User'
 import { SignUpFormData } from '@/app/join/page'
 import logger from '@/lib/logger'
-import { Comme } from 'next/dist/compiled/@next/font/dist/google'
-import { exists } from '@/utils/file'
+import { put } from '@vercel/blob'
 
 const PER_PAGE = 10
 
@@ -118,15 +115,8 @@ export const deleteComment = async (commentId: string) => {
 export const uploadFile = async (formData: FormData) => {
   const file = formData.get('file') as File
   const buffer = await file.arrayBuffer()
-  // Next.js 프로젝트의 public 디렉토리 경로
-  const uploadPath = path.join(process.cwd(), 'public', file.name)
-  const uploadDir = path.join(process.cwd(), 'public')
-  const pathExists = await exists(uploadDir)
-  if(!pathExists){
-    await fs.mkdir(uploadPath, {recursive: true})
-  }
-  await fs.appendFile(uploadPath, Buffer.from(buffer))
-  return `/${file.name}`
+  const result = await put(`images/${file.name}`, buffer, { access: 'public' })
+  return result.url
 }
 
 interface PostData {
