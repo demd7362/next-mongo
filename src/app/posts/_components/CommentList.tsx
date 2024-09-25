@@ -3,7 +3,6 @@ import { getCommentsByPagination } from '@/app/actions'
 import CommentButtonWrapper from '@/app/posts/_components/CommentButtonWrapper'
 import Link from 'next/link'
 import React from 'react'
-import { SearchParams } from '@/types/global'
 
 export interface Comment {
   _id: string;
