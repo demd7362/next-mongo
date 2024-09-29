@@ -8,7 +8,6 @@ import bcrypt from 'bcrypt'
 import KakaoProvider from 'next-auth/providers/kakao'
 import NaverProvider from 'next-auth/providers/naver'
 import GoogleProvider from 'next-auth/providers/google'
-import logger from '@/lib/logger'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -73,22 +72,18 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     // account.provider 로 provider 조회 가능
-    async jwt({ token, user, account, profile }) {
+    async jwt({ token, user, account, profile }): Promise<any> {
       if (account?.provider && account.provider !== 'credentials') {
         await dbConnect()
         const uniqueValue = `${account.provider}$${account.providerAccountId}`
-        let $user = await User.findOne({ email: uniqueValue })
-        logger.info('user, uv', $user, uniqueValue)
+        const $user = await User.findOne({ email: uniqueValue }) ?? await User.create({
+          nickname: uniqueValue,
+          password: uniqueValue,
+          email: uniqueValue,
+          provider: account.provider
+        })
         if (!$user) {
-          $user = await User.create({
-            nickname: uniqueValue,
-            password: uniqueValue,
-            email: uniqueValue,
-            provider: account.provider
-          })
-          if (!$user) {
-            throw new Error('Failed to create user.')
-          }
+          return null
         }
         token.objectId = $user.get('_id')
       }

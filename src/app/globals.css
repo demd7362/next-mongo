@@ -14,10 +14,17 @@
   }
 }
 
+@font-face {
+  font-family: 'leeseoyun';
+  src: url('../../public/fonts/fonts.ttf') format('truetype');
+  font-weight: auto;
+  font-style: normal;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'leeseoyun', serif
 }
 
 @layer utilities {

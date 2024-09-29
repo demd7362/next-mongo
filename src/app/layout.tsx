@@ -7,11 +7,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 
 import { Roboto } from 'next/font/google'
 
-const roboto = Roboto({
-  weight: ['400', '700'],
-  subsets: ['latin'],
-  display: 'swap',
-})
+
 
 export const metadata: Metadata = {
   title: 'Next.js + Mongoose Demo',
@@ -20,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ko" className={roboto.className}>
+    <html lang="ko">
     <head>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
